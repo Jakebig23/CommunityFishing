@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CommunityFishing.Models.Userfish>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FishLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserFishPhotoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CatchDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FishNameNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAccount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FishLength)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserFishPhotoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatchDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FishNameNavigation.FishName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAccount.FirstName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserFishId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserFishId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserFishId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

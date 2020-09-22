@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<IdentityUser> userManager
+@model CommunityFishing.Models.Userfish
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Userfish</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserAccountId" class="control-label"></label>
+                <input asp-for="UserAccountId" class="form-control" value="@userManager.GetUserId(User)" />
+                <!--<select asp-for="UserAccountId" class="form-control" asp-items="ViewBag.UserAccountId"></select>-->
+            </div>
+            <div class="form-group">
+                <label asp-for="FishName" class="control-label"></label>
+                <select asp-for="FishName" class="form-control" asp-items="ViewBag.FishName"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FishLength" class="control-label"></label>
+                <input asp-for="FishLength" class="form-control" />
+                <span asp-validation-for="FishLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserFishPhotoPath" class="control-label"></label>
+                <input asp-for="UserFishPhotoPath" class="form-control" />
+                <span asp-validation-for="UserFishPhotoPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CatchDate" class="control-label"></label>
+                <input asp-for="CatchDate" class="form-control" />
+                <span asp-validation-for="CatchDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
