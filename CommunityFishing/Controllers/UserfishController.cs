@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CommunityFishing.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace CommunityFishing.Controllers
 {
@@ -14,11 +17,13 @@ namespace CommunityFishing.Controllers
 	{
 		private readonly CommunityFishingContext _context;
 		private UserManager<IdentityUser> _userManager;
+		private IHostingEnvironment _webroot;
 
-		public UserfishController(CommunityFishingContext context, UserManager<IdentityUser> userManager)
+		public UserfishController(CommunityFishingContext context, UserManager<IdentityUser> userManager, IHostingEnvironment webroot)
 		{
 			_context = context;
 			_userManager = userManager;
+			_webroot = webroot;
 		}
 
 		// GET: Userfish
@@ -61,8 +66,20 @@ namespace CommunityFishing.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("UserFishId,UserAccountId,FishName,FishLength,UserFishPhotoPath,CatchDate")] Userfish userfish)
+		public async Task<IActionResult> Create([Bind("UserFishId,UserAccountId,FishName,FishLength,UserFishPhotoPath,CatchDate")] Userfish userfish,
+			IFormFile FilePhoto)
 		{
+			if (FilePhoto.Length > 0)
+			{
+				string photoPath = _webroot.WebRootPath + "\\userPhoto\\";
+				var filename = Path.GetFileName(FilePhoto.FileName);
+
+				using (var stream = System.IO.File.Create(photoPath + filename))
+				{
+					await FilePhoto.CopyToAsync(stream);
+					userfish.UserFishPhotoPath = filename;
+				}
+			}
 			if (ModelState.IsValid)
 			{
 				_context.Add(userfish);
@@ -97,8 +114,20 @@ namespace CommunityFishing.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("UserFishId,UserAccountId,FishName,FishLength,UserFishPhotoPath,CatchDate")] Userfish userfish)
+		public async Task<IActionResult> Edit(int id, [Bind("UserFishId,UserAccountId,FishName,FishLength,UserFishPhotoPath,CatchDate")] Userfish userfish,
+			IFormFile FilePhoto)
 		{
+			if (FilePhoto.Length > 0)
+			{
+				string photoPath = _webroot.WebRootPath + "\\userPhoto\\";
+				var filename = Path.GetFileName(FilePhoto.FileName);
+
+				using (var stream = System.IO.File.Create(photoPath + filename))
+				{
+					await FilePhoto.CopyToAsync(stream);
+					userfish.UserFishPhotoPath = filename;
+				}
+			}
 			if (id != userfish.UserFishId)
 			{
 				return NotFound();

@@ -16,11 +16,16 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FishLength)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UserFishPhotoPath)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.UserFishPhotoPath)
+        </dd>*@
+        <dd class="col-sm-10">
+           
+            <img src="~/userPhoto/@Html.DisplayFor(Model => Model.UserFishPhotoPath)" width="300" height="200"/>
+            
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CatchDate)
@@ -45,4 +50,5 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.UserFishId">Edit</a> |
     <a asp-action="Index">Back to List</a>
+    <a asp-controller="PublicBlogs" asp-action="Create"> Would you like to post this?</a>
 </div>
